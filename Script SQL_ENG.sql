@@ -1,13 +1,13 @@
-# 00. CREACIÓN DE LA BBDD
+# 00. CREATION OF DATABASE
 
-CREATE SCHEMA proyecto_integrador_jjoo;
+CREATE SCHEMA project_jjoo;
 
-USE proyecto_integrador_jjoo;
+USE project_jjoo;
 
 
-# 01. TABLA "DIM_COUNTRIES"
+# 01. TABLE "DIM_COUNTRIES" 
 
-# Creación e inserción de datos en la tabla "dim_countries" (tabla de dimensiones)
+# Creation and insertion of data into the "dim_countries" table (dimension table)
 
 CREATE TABLE dim_countries (
     id_country	VARCHAR(3) NOT NULL,
@@ -229,12 +229,12 @@ INSERT INTO dim_countries (id_country, country_name, continent, region) VALUES (
 
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM dim_countries;
 
 
-# Evalúo si algún campo tiene valores únicos, para poder considerarlo primary key
+# Evaluating whether any field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_country) as country_id_registros,
@@ -244,7 +244,7 @@ COUNT(DISTINCT region) as region_registros
 FROM dim_countries;
 
 
-# Asignación de PRIMARY KEY: id_country (no tiene repetidos, tiene 210 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_country (has no duplicates, contains 210 unique records, matching the total number of records)
 
 ALTER TABLE dim_countries
 ADD PRIMARY KEY (id_country);
@@ -252,9 +252,9 @@ ADD PRIMARY KEY (id_country);
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 02. TABLA "DIM_VENUES"
+# 02. TABLE "DIM_VENUES"
 
-# Creación e inserción de datos en la tabla "dim_venues" (tabla de dimensiones)
+# Creation and insertion of data into the "dim_venues" table (dimension table)
 
 CREATE TABLE dim_venues (
     venue_id	VARCHAR(3) NOT NULL,
@@ -309,12 +309,12 @@ INSERT INTO dim_venues (venue_id, venue_name, city, address, venue_type, venue_u
 
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM dim_venues;
 
 
-# Evalúo si algún campo tiene valores únicos, para poder considerarlo primary key
+# Evaluating whether any field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT venue_id) as venue_id_registros,
@@ -326,7 +326,7 @@ COUNT(DISTINCT venue_url) as venue_url_registros
 FROM dim_venues;
 
 
-# Asignación de PRIMARY KEY: venue_id (no tiene repetidos, tiene 41 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: venue_id (has no duplicates, contains 41 unique records, matching the total number of records)
 
 ALTER TABLE dim_venues
 ADD PRIMARY KEY (venue_id);
@@ -335,11 +335,11 @@ ADD PRIMARY KEY (venue_id);
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 03. TABLA "DIM_SPORTS"
+# 03. TABLE "DIM_SPORTS"
 
-# Creación e inserción de datos en la tabla "dim_sports" (tabla de dimensiones)
+# Creation and insertion of data into the "dim_venues" table (dimension table)
 
--- Tener en cuenta que al usar fechas, el formato en SQL es YYYY/MM/DD
+-- Take into consideration that when using dates in SQL, the format is YYYY/MM/DD
 
 CREATE TABLE dim_sports (
     id_sport	VARCHAR(3) NOT NULL,
@@ -398,13 +398,12 @@ INSERT INTO dim_sports (id_sport, sport_name, sport_type, date_start, date_end, 
 
 
 
-
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM dim_sports;
 
 
-# Evalúo si algún campo tiene valores únicos, para poder considerarlo primary key
+# Evaluating whether any field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_sport) as id_sport_registros,
@@ -416,7 +415,7 @@ COUNT(DISTINCT sport_url) as sport_url_registros
 FROM dim_sports;
 
 
-# Asignación de PRIMARY KEY: id_sport (no tiene repetidos, tiene 45 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_sport (has no duplicates, contains 45 unique records, matching the total number of records)
 
 ALTER TABLE dim_sports
 ADD PRIMARY KEY (id_sport);
@@ -425,9 +424,9 @@ ADD PRIMARY KEY (id_sport);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 04. TABLA "DIM_SUBDISCIPLINE"
+# 04. TABLE "DIM_SUBDISCIPLINE"
 
-# Creación e inserción de datos en la tabla "dim_subdiscipline" (tabla de dimensiones)
+# Creation and insertion of data into the "dim_subdiscipline" table (dimension table)
 
 CREATE TABLE dim_subdisciplines (
     id_subdiscipline	INT NOT NULL,
@@ -767,12 +766,12 @@ INSERT INTO dim_subdisciplines (id_subdiscipline, subdiscipline_name, id_sport, 
 INSERT INTO dim_subdisciplines (id_subdiscipline, subdiscipline_name, id_sport, gender) VALUES ('329', 'Men Freestyle 125kg', 'WRE', 'M');
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM dim_subdisciplines;
 
 
-# Evalúo si id_subdiscipline tiene registros únicos, para poder considerarlo primary key
+# Evaluating whether any field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_subdiscipline) as id_subdiscipliner_registros,
@@ -782,24 +781,24 @@ COUNT(DISTINCT gender) as gender_registros
 FROM dim_subdisciplines;
 
 
-# Asignación de PRIMARY KEY: id_subdiscipline (no tiene repetidos, tiene 329 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_subdiscipline (has no duplicates, contains 329 unique records, matching the total number of records)
 
 ALTER TABLE dim_subdisciplines
 ADD PRIMARY KEY (id_subdiscipline);
 
 
-# Asignación de FOREIGN KEY: id_sport es PRIMARY KEY en la tabla "dim_sports"
+# FOREIGN KEY assignment: id_sport is PRIMARY KEY in table "dim_sports"
 
 ALTER TABLE dim_subdisciplines
 ADD FOREIGN KEY (id_sport) REFERENCES dim_sports(id_sport);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 05. TABLA "DIM_ATHLETES"
+# 05. TABLE "DIM_ATHLETES"
 
-# Creación e inserción de datos en la tabla "dim_athletes" (tabla relacional)
+# Creation and insertion of data into the "dim_athletes" table (dimension table)
 
--- Usamos el tipo de dato varchar para id_athlete (en vez de intiger), porque en otras tablas aparece con este formato, ya que no figuran sólo numeros enteros.
+-- We use the data type VARCHAR for id_athlete (instead of INTEGER) because in other tables it appears in this format, as it does not contain only whole numbers.
 
 CREATE TABLE dim_athletes (
     id_athlete	VARCHAR(10) NOT NULL,
@@ -11927,25 +11926,25 @@ INSERT INTO dim_athletes (id_athlete, athlete_name, birth_date, gender, athlete_
 INSERT INTO dim_athletes (id_athlete, athlete_name, birth_date, gender, athlete_function, id_country) VALUES ('1899865', 'STAUT Kevin', '1980-11-15', 'Male', 'Athlete', 'FRA');
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM dim_athletes;
 
 
-# Evalúo si el conjunto de id_athlete tiene registros únicos, para poder considerarlo primary key
+# Evaluating if id_athlete field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_athlete) as id_athlete_registros
 FROM dim_athletes;
 
 
-# Asignación de PRIMARY KEY: id_athlete (no tiene repetidos, tiene 11115 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_athlete (has no duplicates, contains 11115 unique records, matching the total number of records)
 
 ALTER TABLE dim_athletes
 ADD PRIMARY KEY (id_athlete);
 
 
-# Asignación de FOREIGN KEY: id_country es PRIMARY KEY en la tabla "dim_countries"
+# FOREIGN KEY assignment: id_country is PRIMARY KEY in table "dim_countries"
 
 ALTER TABLE dim_athletes
 ADD FOREIGN KEY (id_country) REFERENCES dim_countries(id_country);
@@ -11953,9 +11952,9 @@ ADD FOREIGN KEY (id_country) REFERENCES dim_countries(id_country);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 06. TABLA "DIM_TEAMS"
+# 06. TABLE "DIM_TEAMS"
 
-# Creación e inserción de datos en la tabla "dim_teams" (tabla de dimensiones)
+# Creation and insertion of data into the "dim_teams" table (dimension table)
 
 
 CREATE TABLE dim_teams (
@@ -13309,25 +13308,25 @@ INSERT INTO dim_teams (id_team, team_name, id_country, gender, id_sport) VALUES 
 INSERT INTO dim_teams (id_team, team_name, id_country, gender, id_sport) VALUES ('WPOWTEAM7USA01', 'United States of America', 'USA', 'W', 'WPO');
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM dim_teams;
 
 
-# Evalúo si id_team tiene registros únicos, para poder considerarlo primary key
+# Evaluating if id_team field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_team) as id_team_registros
 FROM dim_teams;
 
 
-# Asignación de PRIMARY KEY: id_team (no tiene repetidos, tiene 1341 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_team (has no duplicates, contains 1341 unique records, matching the total number of records)
 
 ALTER TABLE dim_teams
 ADD PRIMARY KEY (id_team);
 
 
-# Asignación de FOREIGN KEY: id_country es PRIMARY KEY en la tabla "dim_countries", y id_sport es PRIMARY KEY en la tabla "dim_sports"
+# FOREIGN KEY assignment: id_country is PRIMARY KEY in table "dim_countries", and id_sport is PRIMARY KEY in table "dim_sports"
 
 ALTER TABLE dim_teams
 ADD FOREIGN KEY (id_country) REFERENCES dim_countries(id_country);
@@ -13339,9 +13338,9 @@ ADD FOREIGN KEY (id_sport) REFERENCES dim_sports(id_sport);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 07. TABLA "FACT_MEDALS"
+# 07. TABLE "FACT_MEDALS"
 
-# Creación e inserción de datos en la tab+llla "fact_medals" (tabla de hechos)
+# Creation and insertion of data into the "fact_medals" table (fact table)
 
 
 CREATE TABLE fact_medals (
@@ -14403,29 +14402,29 @@ INSERT INTO fact_medals (id_medal, id_sport, id_subdiscipline, id_athlete, id_te
 
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM fact_medals;
 
 
-# Evalúo si el conjunto de id_medal tiene registros únicos, para poder considerarlo primary key
+# Evaluating if id_medal field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_medal) as id_medal_registros
 FROM fact_medals;
 
 
-# Asignación de PRIMARY KEY: id_medal (no tiene repetidos, tiene 1044 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_medal (has no duplicates, contains 1044 unique records, matching the total number of records)
 
 ALTER TABLE fact_medals
 ADD PRIMARY KEY (id_medal);
 
 
-# Asignación de FOREIGN KEY: 
+# FOREIGN KEY assignment: 
 
--- id_country es PRIMARY KEY en la tabla "dim_countries"
--- id_sport es PRIMARY KEY en la tabla "dim_sports"
--- id_subdiscipline es PRIMARY KEY en la tabla "dim_subdisciplines"
+-- id_country is PRIMARY KEY in table "dim_countries"
+-- id_sport is PRIMARY KEY in table "dim_sports"
+-- id_subdiscipline is PRIMARY KEY in table "dim_subdisciplines"
 
 
 ALTER TABLE fact_medals
@@ -14438,14 +14437,14 @@ ALTER TABLE fact_medals
 ADD FOREIGN KEY (id_subdiscipline) REFERENCES dim_subdisciplines(id_subdiscipline);
 
 
--- No indicamos "id_athlete" y "id_team" como FK ya que en esta tabla hija "fact_medals" hay valores ("N/A") que no existen en las tablas padres (dim_athletes y dim_teams) 
+-- "id_athlete" and "id_team" are not considered as FK as in this daughter table "fact_medals" there are values ("N/A") that do not exist in the father tables (dim_athletes y dim_teams) 
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 08. TABLA "FACT_RESULTS_RAW"
+# 08. TABLE "FACT_RESULTS_RAW"
 
-# Creación e inserción de datos en la tabla "fact_results_raw" (tabla de hechos)
+# Creation and insertion of data into the "fact_results_raw" table (fact table)
 
 CREATE TABLE fact_results_raw (
     id_result	VARCHAR(100) NOT NULL,
@@ -14470,37 +14469,37 @@ CREATE TABLE fact_results_raw (
 );
 
 
--- Para insertar los valores, como son muchas líneas (21316), vamos a importar directamente el CSV:
--- Seleccionamos la tabla a la cuál queremos cargarle la información ("fact_results_raw"), click derecho del mouse, y seleccionamos la opción "Table data import wizard"
--- Indicamos la ruta donde se encuentra el archivo .csv, y como sabemos que la información está limpia, le damos next a todo hasta que la carga termine.
+-- To insert the values, since there are many rows (21,316), we will directly import the CSV:
+-- Select the table where we want to load the data ("fact_results_raw"), right-click, and choose the option "Table Data Import Wizard."
+-- Specify the path to the .csv file, and since we know the data is clean, click Next through all the steps until the import is complete.
 
--- El archivo csv importado es la tabla llamada "fact_results_raw" en el archivo de google sheets que se adjunta como entregable. 
+-- The imported CSV file corresponds to the table called "fact_results_raw" in the Google Sheets file attached as a deliverable.
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM fact_results_raw;
 
 
-# Evalúo si id_result tiene registros únicos, para poder considerarlo primary key
+# Evaluating if id_result field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_result) as id_result_registros
 FROM fact_results_raw;
 
 
-# Asignación de PRIMARY KEY: id_result (no tiene repetidos, tiene 21316 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_result (has no duplicates, contains 21316 unique records, matching the total number of records)
 
 ALTER TABLE fact_results_raw
 ADD PRIMARY KEY (id_result);
 
 
-# Asignación de FOREIGN KEY: 
+# FOREIGN KEY assignment: 
 
--- id_country es PRIMARY KEY en la tabla "dim_countries"
--- id_sport es PRIMARY KEY en la tabla "dim_sports"
--- id_subdiscipline es PRIMARY KEY en la tabla "dim_subdisciplines"
--- id_venue es PRIMARY KEY en la tabla "dim_venues"
+-- id_country is PRIMARY KEY in table "dim_countries"
+-- id_sport is PRIMARY KEY in table "dim_sports"
+-- id_subdiscipline is PRIMARY KEY in table "dim_subdisciplines"
+-- id_venue is PRIMARY KEY in table "dim_venues"
 
 
 ALTER TABLE fact_results_raw
@@ -14517,16 +14516,16 @@ ADD FOREIGN KEY (id_venue) REFERENCES dim_venues(venue_id);
 
 
 
--- No indicamos "id_athlete" y "id_team" como FK ya que en esta tabla hija "fact_results_raw" hay valores ("N/A") que no existen en las tablas padres (dim_athletes y dim_teams) 
+-- "id_athlete" and "id_team" are not considered as FK because in this daughter table"fact_results_raw" there are values ("N/A") that do not exist in father tables (dim_athletes and dim_teams) 
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 09. TABLA "TEAM_ATHLETES"
+# 09. TABLE "TEAM_ATHLETES"
 
-# Creación e inserción de datos en la tabla "team_athletes" (tabla relacional)
+# Creation and insertion of data into the "team_athletes" table (bridge table)
 
--- Para no cargar con tanta información el modelo, hemos decidido cargar sólo aquella que usaremos para analizar en profundo con algunos deportes (volleyball, beach volleyball y tennis)
+-- To avoid overloading the model, we decided to include only the data needed for an in-depth analysis of certain sports (volleyball, beach volleyball, and tennis).
 
 
 CREATE TABLE team_athletes (
@@ -15103,19 +15102,19 @@ INSERT INTO team_athletes (id_team, id_athlete) VALUES ('TENXDOUBLESUSA01', '193
 INSERT INTO team_athletes (id_team, id_athlete) VALUES ('TENXDOUBLESUSA01', '1930782');
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM team_athletes;
 
 
-# Evalúo si el conjunto de id_team y id_athlete tiene registros únicos, para poder considerarlo primary key
+# Evaluating if the combination of id_team and id_athlete fields have unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_team, id_athlete) as id_team_id_athlete_registros
 FROM team_athletes;
 
 
-# Asignación de PRIMARY KEY: id_team + id_athlete (no tiene repetidos, tiene 567 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_team + id_athlete (has no duplicates, contains 567 unique records, matching the total number of records)
 
 ALTER TABLE team_athletes
 ADD PRIMARY KEY (id_team, id_athlete);
@@ -15123,11 +15122,11 @@ ADD PRIMARY KEY (id_team, id_athlete);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 10. TABLA "ATHLETE_SPORTS_SUBDISCIPLINES"
+# 10. TABLE "ATHLETE_SPORTS_SUBDISCIPLINES"
 
-# Creación e inserción de datos en la tabla "athlete_sports_subdisciplines" (tabla relacional)
+# Creation and insertion of data into the "athlete_sports_subdisciplines" table (bridge table)
 
--- Para no cargar con tanta información el modelo, hemos decidido cargar sólo aquella que usaremos para analizar en profundo con algunos deportes (volleyball, beach volleyball y tennis)
+-- To avoid overloading the model, we decided to include only the data needed for an in-depth analysis of certain sports (volleyball, beach volleyball, and tennis).
 
 CREATE TABLE athlete_sports_subdisciplines (
     id_athlete	INT,
@@ -15839,19 +15838,19 @@ INSERT INTO athlete_sports_subdisciplines (id_athlete, id_sport, id_subdisciplin
 
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM athlete_sports_subdisciplines;
 
 
-# Evalúo si el conjunto de id_athlete, id_sport y subdiscipline_number tiene registros únicos, para poder considerarlo primary key
+# Evaluating if the combination of id_athlete, id_sport and id_subdiscipline fields have unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_athlete, id_sport, id_subdiscipline) as id_athlete_id_sport_id_subdiscipline_registros
 FROM athlete_sports_subdisciplines;
 
 
-# Asignación de PRIMARY KEY: id_athlete + id_sport + subdiscipline_number (no tiene repetidos, tiene 701 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_athlete + id_sport + subdiscipline_number (has no duplicates, contains 701 unique records, matching the total number of records)
 
 ALTER TABLE athlete_sports_subdisciplines
 ADD PRIMARY KEY (id_athlete, id_sport, id_subdiscipline);
@@ -15859,14 +15858,14 @@ ADD PRIMARY KEY (id_athlete, id_sport, id_subdiscipline);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# 11. TABLA "VENUE_SPORT"
+# 11. TABLE "VENUE_SPORT"
 
-# Creación de datos en la tabla "venue_sport" (tabla relacional)
+# Creation and insertion of data into the  "venue_sport" table (bridge table)
 
--- Esta tabla se crea para identificar la relación varios a varios entre los estadios y los deportes, ya que en 1 estadio pueden llevarse a cabo varios deportes, y viceversa, 1 deporte en diferentes estadios. 
+-- This table is created to identify the many-to-many relationship between venues and sports, since a single venue can host multiple sports, and a single sport can take place at multiple venues.
 
 
-# En este caso combinaremos la tabla de fact_results_raw y dim_sports a traves del uso de la función LEFT JOIN y lo ordenaremos en orden ascendente según el id_venue:
+# In this case we combine the table fact_results_raw and dim_sports by using LEFT JOIN function, and we order the data in ascendent format taking into account the id_venue:
 
 CREATE TABLE venue_sport	
 SELECT distinct r.id_venue , r.id_sport	
@@ -15877,27 +15876,29 @@ ORDER BY id_venue ASC;
 
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM venue_sport;
 
 
-# Evalúo si el conjunto de venue_id y id_sport tiene registros únicos, para poder considerarlo primary key
+# Evaluating if the combination of id_venue and id_sport fields have unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_venue, id_sport) as venue_id_id_sport_registros
 FROM venue_sport;
 
 
-# Asignación de PRIMARY KEY: venue_id + id_sport (no tiene repetidos, tiene 60 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: venue_id + id_sport (has no duplicates, contains 60 unique records, matching the total number of records)
 
 ALTER TABLE venue_sport
 ADD PRIMARY KEY (id_venue, id_sport);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#12 Al hacer el upload de la tabla de fact_results_raw hemos notado que, en la columna de id_athletes, los valores que no tienen asignado un id de atleta son equipos y tienen asignado "No aplica", y lo mismo ocurre en la columna id_teams, pero en ésta los valores que no tienen un número asignado tienen "N/A"
-#Para estandarizar los valores, usaremos la funcion REPLACE para que todos los campos (tanto de id_athletes como de id_teams) que no tienen número asignado tengan "N/A"
+#12. When uploading the fact_results_raw table, we noticed that in the id_athletes column, the values that do not have an assigned athlete ID correspond to teams and are labeled as "No aplica".
+# The same occurs in the id_teams column, but in this case, the values without an assigned number are labeled as "N/A".
+# To standardize the values, we will use the REPLACE function so that all fields (both id_athletes and id_teams) that do not have an assigned number are set to "N/A".
+
 
 UPDATE fact_results_raw
 SET id_athlete = REPLACE (id_athlete, 'No aplica' , 'N/A');
@@ -15906,9 +15907,11 @@ SELECT * FROM fact_results_raw;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#13. RENOMBRE DE LA COLUMNA venue_id DE LA TABLA "DIM_VENUES"
+#13. Renaming the venue_id Column in the "DIM_VENUES" Table
 
-# Hemos detectado que el nombre de la columna venue_id de la tabla de dim_venues esta invertido, puesto que debería ser id_venue y actualmente esta nombrado venue_id. Mediante la utilización de la función ALTER TABLE + CHANGE COLUMN renombraremos la columna
+# We detected that the venue_id column name in the dim_venues table is inverted, as it should be id_venue, but it is currently named venue_id.
+# Using the ALTER TABLE + CHANGE COLUMN function, we will rename the column accordingly.
+
 
 ALTER TABLE dim_venues
 CHANGE COLUMN venue_id id_venue VARCHAR(3) NOT NULL;
@@ -15916,12 +15919,12 @@ CHANGE COLUMN venue_id id_venue VARCHAR(3) NOT NULL;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#14. TABLA "FACT_RESULTS"
+#14. TABLE "FACT_RESULTS"
 
-# Creación de la tabla final de fact_results. 
+# Creation of the final table "fact_results". 
 
-# Hemos decidido crear una versión final de la tabla de fact_results_raw dado que solo enfocaremos el analisis en Power BI de 3 deportes en particular: Tennis, Volleyball y Beachvolley. 
-# Para evitar una sobrecarga de datos a PowerBI, hemos creado esta tabla filtrando solo los id_Sport correspondientes
+# We decided to create a final version of the fact_results_raw table since we will only focus our Power BI analysis on three specific sports: Tennis, Volleyball, and Beach Volleyball.
+# To avoid overloading Power BI with data, we created this table by filtering only the corresponding id_sport values.
 
 CREATE TABLE fact_Results
 SELECT id_result, match_date, stage, id_sport, id_subdiscipline, id_athlete , id_team, id_country, id_venue, result, result_type, result_WLT
@@ -15929,30 +15932,30 @@ FROM fact_results_raw
 WHERE id_Sport IN ('VBV', 'TEN', 'VVO');
 
 
-# Exploración de datos: Visualización de la tabla entera
+# Data exploration: Viewing the entire table
 
 SELECT * FROM fact_results;
 
 
-# Evalúo si id_result tiene registros únicos, para poder considerarlo primary key
+# Evaluating if id_result field has unique values to consider it as a primary key
 
 SELECT COUNT(*) as total_registros,
 COUNT(DISTINCT id_result) as id_result_registros
 FROM fact_results;
 
 
-# Asignación de PRIMARY KEY: id_result (no tiene repetidos, tiene 736 registros únicos al igual que la cantidad total de registros)
+# PRIMARY KEY assignment: id_result (has no duplicates, contains 736 unique records, matching the total number of records)
 
 ALTER TABLE fact_results
 ADD PRIMARY KEY (id_result);
 
 
-# Asignación de FOREIGN KEY: 
+# FOREIGN KEY assignment: 
 
--- id_country es PRIMARY KEY en la tabla "dim_countries"
--- id_sport es PRIMARY KEY en la tabla "dim_sports"
--- id_subdiscipline es PRIMARY KEY en la tabla "dim_subdisciplines"
--- id_venue es PRIMARY KEY en la tabla "dim_venues"
+-- id_country is PRIMARY KEY in table "dim_countries"
+-- id_sport is PRIMARY KEY in table "dim_sports"
+-- id_subdiscipline is PRIMARY KEY in table "dim_subdisciplines"
+-- id_venue is PRIMARY KEY in table "dim_venues"
 
 
 ALTER TABLE fact_results
@@ -15969,6 +15972,6 @@ ADD FOREIGN KEY (id_venue) REFERENCES dim_venues(id_venue);
 
 
 
--- No indicamos "id_athlete" y "id_team" como FK ya que en esta tabla hija "fact_results_raw" hay valores ("N/A") que no existen en las tablas padres (dim_athletes y dim_teams) 
+-- We do not define "id_athlete" and "id_team" as foreign keys (FKs) because in this child table (fact_results_raw), there are values ("N/A") that do not exist in the parent tables (dim_athletes and dim_teams).
 
 
