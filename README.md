@@ -3,7 +3,7 @@ Paris 2024 Olympic Games Analysis
 
 
 
-> You can see the full version in the following website: <a href="https://hilarious-writer-7f1.notion.site/Olympic-Games-Paris-2024-Data-Analysis-18e7d88a1fc98000bc3ec2ab9155ef69" target="_blank">Olympic Games Paris 2024 Data Analysis</a>
+> You can see the full documentation in the following website: <a href="https://hilarious-writer-7f1.notion.site/Olympic-Games-Paris-2024-Data-Analysis-18e7d88a1fc98000bc3ec2ab9155ef69" target="_blank">Olympic Games Paris 2024 Data Analysis</a>
 >
 
 
